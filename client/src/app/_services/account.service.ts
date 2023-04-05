@@ -8,31 +8,28 @@ import { User } from '../_models/user';
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl =environment.apiUrl;
-  private currentUserSource= new BehaviorSubject<User | null>(null);
-  currentUser$= this.currentUserSource.asObservable();
+  baseUrl = environment.apiUrl;
+  private currentUserSource = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSource.asObservable();
 
 
-  constructor(private http:HttpClient) { }
-  
-  login(model:any){
+  constructor(private http: HttpClient) { }
+
+  login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login ', model).pipe(
-      map((response:User) =>{
+      map((response: User) => {
         const user = response;
-        if(user)
-        {
-          localStorage.setItem('user', JSON.stringify(user))
-          this.currentUserSource.next(user);
+        if (user) {
+          this.setCurrentUser(user);
         }
       })
     )
   }
-  register(model:any){
-    return this.http.post<User>(this.baseUrl + 'account/register' , model).pipe(
-      map(user =>{
-        if(user){
-          localStorage.setItem('user',JSON.stringify(user));
-          this.currentUserSource.next(user);
+  register(model: any) {
+    return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
+      map(user => {
+        if (user) {
+          this.setCurrentUser(user);
         }
         return user;
       })
@@ -41,12 +38,12 @@ export class AccountService {
 
 
 
-  setCurrentUser(user:User){
+  setCurrentUser(user: User) {
     this.currentUserSource.next(user);
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
-    }
+  }
 }
