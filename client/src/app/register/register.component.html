@@ -1,23 +1,43 @@
-<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
-<h2 class="text-center text-primary">Sign up</h2>
-<hr>
-<div class="mb-3">
-    <input type="text"
-     class="form-contorl"
-    name="username"    
-    [(ngModel)]="model.username"
-    placeholder="Username">
-</div>
-<div class="mb-3">
-    <input type="password"
-     class="form-contorl"
-    name="password"    
-    [(ngModel)]="model.password"
-    placeholder="Password">
-</div>
+<form [formGroup]="registerFrom" (ngSubmit)="registerFrom.valid && register()" autocomplete="off">
+    <h2 class="text-center text-primary">Sign up</h2>
+    <hr>
 
- <div class="text-center">
-    <button class="btn btn-success me-2" type="submit">Register</button>
-    <button class="btn btn-default " type="button" (click)="cancle()">Cancle</button>
- </div>
+    <div class="mb-3">
+        <label style="margin-right: 10px;">I am a:</label>
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" value="male" formControlName="gender">Male
+        </label>
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" value="female" formControlName="gender">Female
+        </label>
+    </div>
+
+    <app-text-input [formControl]="$any(registerFrom.controls['username'])" 
+    [label]="'Username'"></app-text-input>
+    <app-text-input [formControl]="$any(registerFrom.controls['knownAs'])" 
+    [label]="'Known As'"></app-text-input>
+    <app-date-picker [formControl]="$any(registerFrom.controls['dateOfBirth'])" 
+    [label]="'Date Of Birth'" [maxDate]="maxDate" ></app-date-picker>
+    <app-text-input [formControl]="$any(registerFrom.controls['city'])" 
+    [label]="'City'"></app-text-input>
+    <app-text-input [formControl]="$any(registerFrom.controls['country'])" 
+    [label]="'Country'"></app-text-input>
+    <app-text-input [formControl]="$any(registerFrom.controls['password'])" 
+    [label]="'Password'"
+        [type]="'password'"></app-text-input>
+    <app-text-input [formControl]="$any(registerFrom.controls['confirmPassword'])" [label]="'Confirm Password'"
+        [type]="'password'"></app-text-input>
+
+        <div class="row" *ngIf="validationErrors">
+            <ul class="text-danger">
+                <li *ngFor="let error of validationErrors">
+                    {{error}}
+                </li>
+            </ul>
+        </div>
+
+    <div class="text-center">
+        <button [disabled]="!registerFrom.valid" class="btn btn-success me-2" type="submit">Register</button>
+        <button class="btn btn-default " type="button" (click)="cancle()">Cancle</button>
+    </div>
 </form>
