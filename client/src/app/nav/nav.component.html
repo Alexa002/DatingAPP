@@ -7,10 +7,13 @@
               <a class="nav-link  " routerLink="/members" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}" >Matches</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"routerLink="lists"  routerLinkActive="active">Links</a>
+              <a class="nav-link"routerLink="/lists"  routerLinkActive="active">Links</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="messages"  routerLinkActive="active">Messages</a>
+              <a class="nav-link" routerLink="/messages"  routerLinkActive="active">Messages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" *appHasRole="['Admin' , 'Moderator']" routerLink="/admin"  routerLinkActive="active">Admin</a>
             </li>
           </ng-container>
           <li class="nav-item">
