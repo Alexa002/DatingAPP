@@ -45,6 +45,7 @@ namespace API.Controllers
             };
 
             _messageRepository.AddMessage(message);
+            
 
             if (await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<MessageDto>(message));
 
